@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Noto Serif SC", "Georgia", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --color-bg-base: #0f0f12;
+  --color-bg-surface: #18181f;
+  --color-bg-elevated: #222230;
+  --color-bg-card: #1e1e2a;
+  --color-bg-hover: #2a2a3a;
+
+  --color-border: #2e2e40;
+  --color-border-subtle: #1e1e2c;
+
+  --color-primary: #f0a500;
+  --color-primary-hover: #ffb726;
+  --color-primary-dim: #f0a50022;
+
+  --color-accent: #e05c4b;
+  --color-accent-dim: #e05c4b22;
+
+  --color-success: #3fc87a;
+  --color-success-dim: #3fc87a22;
+
+  --color-text-primary: #f4f1e8;
+  --color-text-secondary: #9896a8;
+  --color-text-muted: #5a5870;
+  --color-text-inverse: #0f0f12;
+
+  --color-meat: #e8734a;
+  --color-veggie: #5ac96f;
+  --color-seafood: #4a9fe8;
+  --color-tofu: #e8c84a;
+  --color-dairy: #c084e8;
+  --color-other: #9896a8;
+
+  --color-category-meat: #e05c4b;
+  --color-category-veggie: #3fc87a;
+  --color-category-soup: #4a9fe8;
+  --color-category-staple: #f0a500;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 1024px;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg-base);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease forwards;
+}
