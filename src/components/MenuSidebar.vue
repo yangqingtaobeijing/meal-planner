@@ -72,8 +72,8 @@ function handleGenerate() {
 .sidebar {
   width: 280px;
   min-width: 280px;
-  background: var(--color-bg-surface);
-  border-left: 1px solid var(--color-border);
+  background: var(--t-bg-surface);
+  border-left: 1px solid var(--t-border);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -86,19 +86,19 @@ function handleGenerate() {
   align-items: center;
   gap: 10px;
   padding: 20px 20px 16px;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--t-border);
 }
 
 .sidebar-title {
   font-size: 15px;
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--t-text-primary);
   letter-spacing: 0.02em;
 }
 
 .count-badge {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
+  background: var(--t-primary);
+  color: var(--t-text-inverse);
   font-size: 11px;
   font-weight: 700;
   padding: 2px 7px;
@@ -131,7 +131,7 @@ function handleGenerate() {
 }
 
 .menu-item:hover {
-  background: var(--color-bg-hover);
+  background: var(--t-bg-hover);
 }
 
 .menu-item-info {
@@ -144,7 +144,7 @@ function handleGenerate() {
 
 .menu-item-name {
   font-size: 13px;
-  color: var(--color-text-primary);
+  color: var(--t-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -152,7 +152,7 @@ function handleGenerate() {
 
 .menu-item-servings {
   font-size: 12px;
-  color: var(--color-primary);
+  color: var(--t-primary);
   font-weight: 700;
   flex-shrink: 0;
 }
@@ -163,7 +163,7 @@ function handleGenerate() {
   background: none;
   border: none;
   border-radius: 4px;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -179,14 +179,14 @@ function handleGenerate() {
 }
 
 .remove-btn:hover {
-  background: var(--color-accent-dim);
-  color: var(--color-accent);
+  background: var(--t-accent-dim);
+  color: var(--t-accent);
 }
 
 .empty-hint {
   text-align: center;
   padding: 40px 20px;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
 }
 
 .empty-icon {
@@ -202,20 +202,20 @@ function handleGenerate() {
 
 .empty-sub {
   font-size: 11px !important;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
   opacity: 0.7;
 }
 
 .sidebar-footer {
   padding: 16px;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--t-border);
 }
 
 .generate-btn {
   width: 100%;
   padding: 12px 16px;
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
+  background: var(--t-primary);
+  color: var(--t-text-inverse);
   border: none;
   border-radius: 8px;
   font-size: 14px;
@@ -230,7 +230,7 @@ function handleGenerate() {
 }
 
 .generate-btn:hover:not(.disabled) {
-  background: var(--color-primary-hover);
+  background: var(--t-primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(240, 165, 0, 0.35);
 }

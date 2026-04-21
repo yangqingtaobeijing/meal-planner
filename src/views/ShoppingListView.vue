@@ -168,8 +168,8 @@ async function handleCopy() {
   align-items: center;
   justify-content: space-between;
   padding: 20px 32px;
-  background: var(--color-bg-surface);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--t-bg-surface);
+  border-bottom: 1px solid var(--t-border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -187,10 +187,10 @@ async function handleCopy() {
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
+  background: var(--t-bg-elevated);
+  border: 1px solid var(--t-border);
   border-radius: 8px;
-  color: var(--color-text-secondary);
+  color: var(--t-text-secondary);
   font-size: 13px;
   cursor: pointer;
   transition: all 0.15s;
@@ -203,20 +203,20 @@ async function handleCopy() {
 }
 
 .back-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  border-color: var(--t-primary);
+  color: var(--t-primary);
 }
 
 .page-title {
   font-size: 20px;
   font-weight: 800;
-  color: var(--color-text-primary);
+  color: var(--t-text-primary);
   margin: 0 0 3px;
 }
 
 .page-sub {
   font-size: 12px;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
   margin: 0;
 }
 
@@ -225,10 +225,10 @@ async function handleCopy() {
   align-items: center;
   gap: 7px;
   padding: 10px 20px;
-  background: var(--color-primary);
+  background: var(--t-primary);
   border: none;
   border-radius: 8px;
-  color: var(--color-text-inverse);
+  color: var(--t-text-inverse);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -242,13 +242,13 @@ async function handleCopy() {
 }
 
 .copy-btn:hover:not(.copied) {
-  background: var(--color-primary-hover);
+  background: var(--t-primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(240, 165, 0, 0.35);
 }
 
 .copy-btn.copied {
-  background: var(--color-success);
+  background: var(--t-success);
   cursor: default;
 }
 
@@ -262,8 +262,8 @@ async function handleCopy() {
 .dishes-panel {
   width: 240px;
   min-width: 240px;
-  background: var(--color-bg-surface);
-  border-right: 1px solid var(--color-border);
+  background: var(--t-bg-surface);
+  border-right: 1px solid var(--t-border);
   padding: 24px 16px;
   position: sticky;
   top: 73px;
@@ -274,7 +274,7 @@ async function handleCopy() {
 .panel-title {
   font-size: 11px;
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin: 0 0 14px;
@@ -297,17 +297,17 @@ async function handleCopy() {
 }
 
 .dish-item:hover {
-  background: var(--color-bg-hover);
+  background: var(--t-bg-hover);
 }
 
 .dish-name {
   font-size: 13px;
-  color: var(--color-text-primary);
+  color: var(--t-text-primary);
 }
 
 .dish-serving {
   font-size: 12px;
-  color: var(--color-primary);
+  color: var(--t-primary);
   font-weight: 700;
 }
 
@@ -322,8 +322,8 @@ async function handleCopy() {
 }
 
 .ingredient-section {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
+  background: var(--t-bg-card);
+  border: 1px solid var(--t-border);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -333,8 +333,8 @@ async function handleCopy() {
   align-items: center;
   gap: 10px;
   padding: 14px 20px;
-  background: var(--color-bg-elevated);
-  border-bottom: 1px solid var(--color-border);
+  background: var(--t-bg-elevated);
+  border-bottom: 1px solid var(--t-border);
 }
 
 .section-dot {
@@ -350,20 +350,20 @@ async function handleCopy() {
 .dot-豆制品 { background: var(--color-tofu); }
 .dot-蛋奶 { background: var(--color-dairy); }
 .dot-其他 { background: var(--color-other); }
-.dot-spice { background: var(--color-primary); }
+.dot-spice { background: var(--t-primary); }
 
 .section-title {
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--t-text-primary);
   margin: 0;
 }
 
 .section-count {
   font-size: 11px;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
   margin-left: auto;
-  background: var(--color-bg-surface);
+  background: var(--t-bg-surface);
   padding: 2px 8px;
   border-radius: 10px;
 }
@@ -379,7 +379,7 @@ async function handleCopy() {
   justify-content: space-between;
   gap: 16px;
   padding: 12px 20px;
-  border-bottom: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--t-border-subtle);
   transition: background 0.1s;
 }
 
@@ -388,7 +388,7 @@ async function handleCopy() {
 }
 
 .ingredient-item:hover {
-  background: var(--color-bg-hover);
+  background: var(--t-bg-hover);
 }
 
 .ingredient-left {
@@ -405,7 +405,7 @@ async function handleCopy() {
 .ingredient-name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--t-text-primary);
 }
 
 .ingredient-right {
@@ -418,13 +418,13 @@ async function handleCopy() {
 .ingredient-amount {
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--t-primary);
   white-space: nowrap;
 }
 
 .ingredient-source {
   font-size: 11px;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
   text-align: right;
 }
 
@@ -432,9 +432,9 @@ async function handleCopy() {
 .spice-note {
   padding: 8px 20px;
   font-size: 11px;
-  color: var(--color-text-muted);
-  background: var(--color-bg-elevated);
-  border-bottom: 1px solid var(--color-border);
+  color: var(--t-text-muted);
+  background: var(--t-bg-elevated);
+  border-bottom: 1px solid var(--t-border);
   font-style: italic;
 }
 
@@ -442,11 +442,11 @@ async function handleCopy() {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1px;
-  background: var(--color-border-subtle);
+  background: var(--t-border-subtle);
 }
 
 .spice-item {
-  background: var(--color-bg-card);
+  background: var(--t-bg-card);
   padding: 10px 16px;
   display: flex;
   flex-direction: column;
@@ -456,27 +456,27 @@ async function handleCopy() {
 .spice-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--t-text-primary);
 }
 
 .spice-sources {
   font-size: 10px;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
 }
 
 .empty-list {
   text-align: center;
   padding: 80px 40px;
-  color: var(--color-text-muted);
+  color: var(--t-text-muted);
 }
 
 .go-back-btn {
   margin-top: 16px;
   padding: 10px 24px;
-  background: var(--color-primary);
+  background: var(--t-primary);
   border: none;
   border-radius: 8px;
-  color: var(--color-text-inverse);
+  color: var(--t-text-inverse);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;

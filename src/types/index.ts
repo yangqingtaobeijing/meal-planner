@@ -14,6 +14,7 @@ export interface Recipe {
   servings: number
   ingredients: Ingredient[]
   isCustom?: boolean
+  image?: string  // base64 data URL
 }
 
 export interface SelectedRecipe {

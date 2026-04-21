@@ -41,21 +41,65 @@
   --color-category-staple: #f0a500;
 }
 
+/* Runtime theme tokens (dark default) */
+:root {
+  --t-bg-base: #0f0f12;
+  --t-bg-surface: #18181f;
+  --t-bg-elevated: #222230;
+  --t-bg-card: #1e1e2a;
+  --t-bg-hover: #2a2a3a;
+  --t-border: #2e2e40;
+  --t-border-subtle: #1e1e2c;
+  --t-text-primary: #f4f1e8;
+  --t-text-secondary: #9896a8;
+  --t-text-muted: #5a5870;
+  --t-text-inverse: #0f0f12;
+  --t-primary: #f0a500;
+  --t-primary-hover: #ffb726;
+  --t-primary-dim: rgba(240,165,0,0.13);
+  --t-accent: #e05c4b;
+  --t-accent-dim: rgba(224,92,75,0.13);
+  --t-success: #3fc87a;
+  --t-success-dim: rgba(63,200,122,0.13);
+}
+
+[data-theme="light"] {
+  --t-bg-base: #f5f4f0;
+  --t-bg-surface: #ffffff;
+  --t-bg-elevated: #efefea;
+  --t-bg-card: #ffffff;
+  --t-bg-hover: #e8e7e2;
+  --t-border: #dddbd3;
+  --t-border-subtle: #ededea;
+  --t-text-primary: #1a1814;
+  --t-text-secondary: #5a5850;
+  --t-text-muted: #9a9890;
+  --t-text-inverse: #ffffff;
+  --t-primary: #c07800;
+  --t-primary-hover: #d98a00;
+  --t-primary-dim: rgba(192,120,0,0.1);
+  --t-accent: #c04030;
+  --t-accent-dim: rgba(192,64,48,0.1);
+  --t-success: #2a9a5a;
+  --t-success-dim: rgba(42,154,90,0.1);
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
   min-width: 1024px;
-  background-color: var(--color-bg-base);
-  color: var(--color-text-primary);
+  background-color: var(--t-bg-base);
+  color: var(--t-text-primary);
   font-family: var(--font-body);
+  transition: background-color 0.2s, color 0.2s;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--color-bg-base);
+  background-color: var(--t-bg-base);
 }
 
 ::-webkit-scrollbar {
@@ -63,14 +107,14 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-surface);
+  background: var(--t-bg-surface);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-border);
+  background: var(--t-border);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-muted);
+  background: var(--t-text-muted);
 }
 
 @keyframes fadeIn {
