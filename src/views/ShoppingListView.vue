@@ -3,11 +3,11 @@
     <!-- Header -->
     <header class="shopping-header">
       <div class="header-left">
-        <button class="back-btn" @click="router.push({ name: 'recipes' })">
+        <button class="back-btn" @click="router.push({ name: 'planner' })">
           <svg viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
           </svg>
-          重新选菜
+          返回排餐
         </button>
         <div class="header-info">
           <h1 class="page-title">🛒 购物清单</h1>
@@ -30,16 +30,21 @@
     <div class="shopping-body">
       <!-- Left: Selected Dishes -->
       <aside class="dishes-panel">
-        <h3 class="panel-title">选用菜谱</h3>
+        <h3 class="panel-title">本周安排</h3>
         <div class="dishes-list">
-          <div
-            v-for="sel in menuStore.selectedRecipes"
-            :key="sel.recipeId"
-            class="dish-item"
-          >
-            <span class="dish-name">{{ getRecipeName(sel.recipeId) }}</span>
-            <span class="dish-serving">×{{ sel.servings }}</span>
-          </div>
+          <template v-for="day in menuStore.weeklyPlan" :key="day.dayOfWeek">
+            <div v-if="day.recipes.length > 0" class="day-group">
+              <div class="day-group-title">{{ getDayName(day.dayOfWeek) }}</div>
+              <div
+                v-for="sel in day.recipes"
+                :key="sel.recipeId"
+                class="dish-item"
+              >
+                <span class="dish-name">{{ getRecipeName(sel.recipeId) }}</span>
+                <span class="dish-serving">×{{ sel.servings }}</span>
+              </div>
+            </div>
+          </template>
         </div>
       </aside>
 
@@ -102,8 +107,8 @@
 
         <!-- Empty State -->
         <div v-if="totalIngredients === 0 && shoppingList.spices.length === 0" class="empty-list">
-          <p>暂无数据，请先选菜</p>
-          <button class="go-back-btn" @click="router.push({ name: 'recipes' })">去选菜</button>
+          <p>暂无数据，请先排餐</p>
+          <button class="go-back-btn" @click="router.push({ name: 'planner' })">去排餐</button>
         </div>
       </div>
     </div>
@@ -116,6 +121,7 @@ import { useRouter } from 'vue-router'
 import { useMenuStore } from '@/stores/menuStore'
 import { useRecipesStore } from '@/stores/recipesStore'
 import { GROUP_ORDER } from '@/data/ingredientGroups'
+import type { DayOfWeek } from '@/types'
 
 const router = useRouter()
 const menuStore = useMenuStore()
@@ -134,6 +140,19 @@ const spiceCount = computed(() => shoppingList.value.spices.length)
 
 function getRecipeName(id: string): string {
   return recipesStore.getRecipeById(id)?.name ?? id
+}
+
+function getDayName(day: DayOfWeek): string {
+  const map: Record<DayOfWeek, string> = {
+    'Monday': '周一',
+    'Tuesday': '周二',
+    'Wednesday': '周三',
+    'Thursday': '周四',
+    'Friday': '周五',
+    'Saturday': '周六',
+    'Sunday': '周日'
+  }
+  return map[day]
 }
 
 async function handleCopy() {
@@ -284,7 +303,21 @@ async function handleCopy() {
 .dishes-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 16px;
+}
+
+.day-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.day-group-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t-primary);
+  padding: 0 4px;
+  margin-bottom: 2px;
 }
 
 .dish-item {

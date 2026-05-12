@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import WeeklyPlannerView from '@/views/WeeklyPlannerView.vue'
 import RecipeLibrary from '@/views/RecipeLibrary.vue'
 import ShoppingListView from '@/views/ShoppingListView.vue'
 
@@ -7,6 +8,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'planner',
+      component: WeeklyPlannerView,
+    },
+    {
+      path: '/recipes',
       name: 'recipes',
       component: RecipeLibrary,
     },

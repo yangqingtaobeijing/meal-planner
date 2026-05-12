@@ -5,26 +5,27 @@
       <!-- Top Bar -->
       <header class="topbar">
         <div class="topbar-left">
-          <div class="logo">
-            <span class="logo-icon">🥬</span>
-            <span class="logo-text">买菜清单</span>
+          <button class="back-btn" @click="router.push({ name: 'planner' })">
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+            </svg>
+            返回排餐
+          </button>
+          <div class="header-info">
+            <h1 class="page-title">📚 菜谱管理</h1>
+            <p class="page-sub">浏览、添加或修改你的自定义菜谱</p>
           </div>
-          <p class="logo-sub">选好菜，一键生成购物清单</p>
         </div>
         <div class="topbar-actions">
           <button class="theme-toggle-btn" @click="toggleTheme" :title="isDark ? '切换白天模式' : '切换夜间模式'">
             <span>{{ isDark ? '☀️' : '🌙' }}</span>
             <span class="theme-label">{{ isDark ? '白天' : '夜间' }}</span>
           </button>
-          <button class="random-btn" @click="showRandomModal = true">
-            <span>🎲</span>
-            <span>随机选菜</span>
-          </button>
           <button class="add-recipe-btn" @click="showAddModal = true">
             <svg viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
             </svg>
-            添加菜谱
+            添加自定义菜谱
           </button>
         </div>
       </header>
@@ -68,9 +69,6 @@
           <span v-if="activeCategory !== '全部'">（{{ activeCategory }}）</span>
           <span v-if="searchQuery">· 搜索"{{ searchQuery }}"</span>
         </span>
-        <span v-if="menuStore.selectionCount > 0" class="selected-stats">
-          已选 <strong>{{ menuStore.selectionCount }}</strong> 道
-        </span>
       </div>
 
       <!-- Recipe Grid -->
@@ -91,64 +89,22 @@
       </div>
     </main>
 
-    <!-- Sidebar -->
-    <MenuSidebar />
-
     <!-- Add / Edit Recipe Modal -->
     <AddRecipeModal v-if="showAddModal" @close="showAddModal = false" />
     <AddRecipeModal v-if="editingRecipe" :edit-recipe="editingRecipe" @close="editingRecipe = null" />
-
-    <!-- Random Pick Modal -->
-    <Teleport to="body">
-      <div v-if="showRandomModal" class="modal-overlay" @click.self="showRandomModal = false">
-        <div class="random-modal animate-scale-in">
-          <div class="random-modal-header">
-            <span>🎲 随机选菜</span>
-            <button class="close-btn" @click="showRandomModal = false">✕</button>
-          </div>
-          <div class="random-modal-body">
-            <p class="random-desc">从全部菜谱中随机选出几道，加入已选菜单</p>
-            <div class="random-count-row">
-              <span>随机选</span>
-              <div class="count-btns">
-                <button v-for="n in [1,2,3,4,5,6]" :key="n" class="count-btn" :class="{active: randomCount === n}" @click="randomCount = n">{{ n }}</button>
-              </div>
-              <span>道菜</span>
-            </div>
-            <div class="random-category-row">
-              <span class="random-label">分类限定</span>
-              <div class="cat-chips">
-                <button
-                  v-for="cat in ['全部', '荤菜', '素菜', '汤羹', '主食']"
-                  :key="cat"
-                  class="cat-chip"
-                  :class="{ active: randomCategory === cat }"
-                  @click="randomCategory = cat"
-                >{{ cat }}</button>
-              </div>
-            </div>
-          </div>
-          <div class="random-modal-footer">
-            <button class="btn-cancel" @click="showRandomModal = false">取消</button>
-            <button class="btn-random" @click="doRandomPick">🎲 开始随机</button>
-          </div>
-        </div>
-      </div>
-    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, inject } from 'vue'
+import { useRouter } from 'vue-router'
 import type { RecipeCategory, Recipe } from '@/types'
 import { useRecipesStore } from '@/stores/recipesStore'
-import { useMenuStore } from '@/stores/menuStore'
 import RecipeCard from '@/components/RecipeCard.vue'
-import MenuSidebar from '@/components/MenuSidebar.vue'
 import AddRecipeModal from '@/components/AddRecipeModal.vue'
 
+const router = useRouter()
 const recipesStore = useRecipesStore()
-const menuStore = useMenuStore()
 
 const isDark = inject<{ value: boolean }>('isDark', { value: true })
 const toggleTheme = inject<() => void>('toggleTheme', () => {})
@@ -157,26 +113,9 @@ const activeCategory = ref<RecipeCategory | '全部'>('全部')
 const searchQuery = ref('')
 const showAddModal = ref(false)
 const editingRecipe = ref<Recipe | null>(null)
-const showRandomModal = ref(false)
-const randomCount = ref(3)
-const randomCategory = ref<string>('全部')
 
 function openEditModal(recipe: Recipe) {
   editingRecipe.value = recipe
-}
-
-function doRandomPick() {
-  const pool = recipesStore.allRecipes.filter(r =>
-    randomCategory.value === '全部' || r.category === randomCategory.value
-  )
-  const shuffled = [...pool].sort(() => Math.random() - 0.5)
-  const picks = shuffled.slice(0, Math.min(randomCount.value, shuffled.length))
-  picks.forEach(r => {
-    if (!menuStore.isSelected(r.id)) {
-      menuStore.toggleRecipe(r.id)
-    }
-  })
-  showRandomModal.value = false
 }
 
 const categories: (RecipeCategory | '全部')[] = ['全部', '荤菜', '素菜', '汤羹', '主食']
@@ -213,32 +152,52 @@ function getCategoryCount(cat: RecipeCategory): number {
 
 .topbar-left {
   display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--t-bg-elevated);
+  border: 1px solid var(--t-border);
+  border-radius: 8px;
+  color: var(--t-text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.back-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.back-btn:hover {
+  border-color: var(--t-primary);
+  color: var(--t-primary);
+}
+
+.header-info {
+  display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo-icon {
-  font-size: 28px;
-}
-
-.logo-text {
-  font-size: 24px;
+.page-title {
+  font-size: 20px;
   font-weight: 800;
   color: var(--t-text-primary);
-  letter-spacing: -0.02em;
+  margin: 0;
 }
 
-.logo-sub {
-  font-size: 13px;
+.page-sub {
+  font-size: 12px;
   color: var(--t-text-muted);
   margin: 0;
-  padding-left: 38px;
 }
 
 .topbar-actions {
@@ -273,187 +232,15 @@ function getCategoryCount(cat: RecipeCategory): number {
   font-size: 13px;
 }
 
-.random-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--t-success);
-  background: var(--t-success-dim);
-  color: var(--t-success);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.random-btn:hover {
-  background: var(--t-success);
-  color: var(--t-text-inverse);
-}
-
-/* Random modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.random-modal {
-  background: var(--t-bg-surface);
-  border: 1px solid var(--t-border);
-  border-radius: 14px;
-  width: 420px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-
-.random-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 22px 14px;
-  border-bottom: 1px solid var(--t-border);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--t-text-primary);
-}
-
-.random-modal-header .close-btn {
-  background: none;
-  border: none;
-  color: var(--t-text-muted);
-  font-size: 16px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: all 0.15s;
-}
-.random-modal-header .close-btn:hover {
-  background: var(--t-bg-hover);
-  color: var(--t-text-primary);
-}
-
-.random-modal-body {
-  padding: 20px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.random-desc {
-  font-size: 13px;
-  color: var(--t-text-secondary);
-  margin: 0;
-}
-
-.random-count-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  color: var(--t-text-primary);
-}
-
-.count-btns {
-  display: flex;
-  gap: 6px;
-}
-
-.count-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--t-border);
-  border-radius: 8px;
-  background: var(--t-bg-elevated);
-  color: var(--t-text-secondary);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.count-btn:hover { border-color: var(--t-success); color: var(--t-success); }
-.count-btn.active { background: var(--t-success); border-color: var(--t-success); color: white; }
-
-.random-category-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.random-label {
-  font-size: 13px;
-  color: var(--t-text-secondary);
-  flex-shrink: 0;
-}
-
-.cat-chips {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.cat-chip {
-  padding: 4px 12px;
-  border: 1px solid var(--t-border);
-  border-radius: 20px;
-  background: var(--t-bg-elevated);
-  color: var(--t-text-secondary);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.cat-chip:hover { border-color: var(--t-primary); color: var(--t-primary); }
-.cat-chip.active { background: var(--t-primary-dim); border-color: var(--t-primary); color: var(--t-primary); font-weight: 700; }
-
-.random-modal-footer {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  padding: 14px 22px 18px;
-  border-top: 1px solid var(--t-border);
-}
-
-.btn-cancel {
-  padding: 9px 18px;
-  background: none;
-  border: 1px solid var(--t-border);
-  border-radius: 8px;
-  color: var(--t-text-secondary);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.btn-cancel:hover { color: var(--t-text-primary); border-color: var(--t-text-secondary); }
-
-.btn-random {
-  padding: 9px 22px;
-  background: var(--t-success);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-random:hover { opacity: 0.85; }
-
 .add-recipe-btn {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: 10px 18px;
-  background: var(--t-bg-elevated);
-  border: 1px solid var(--t-border);
+  background: var(--t-primary);
+  border: none;
   border-radius: 8px;
-  color: var(--t-text-secondary);
+  color: var(--t-text-inverse);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -467,9 +254,7 @@ function getCategoryCount(cat: RecipeCategory): number {
 }
 
 .add-recipe-btn:hover {
-  border-color: var(--t-primary);
-  color: var(--t-primary);
-  background: var(--t-primary-dim);
+  background: var(--t-primary-hover);
 }
 
 .filters {
@@ -615,19 +400,10 @@ function getCategoryCount(cat: RecipeCategory): number {
   color: var(--t-text-secondary);
 }
 
-.selected-stats {
-  font-size: 12px;
-  color: var(--t-primary);
-}
-
-.selected-stats strong {
-  font-weight: 700;
-}
-
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
+  gap: 16px;
 }
 
 .empty-state {

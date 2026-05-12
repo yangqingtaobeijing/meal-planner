@@ -1,7 +1,7 @@
 <template>
   <div
     class="recipe-card"
-    :class="{ selected: isSelected, 'has-image': !!recipe.image }"
+    :class="{ 'has-image': !!recipe.image }"
     @click="handleClick"
   >
     <!-- Image Banner -->
@@ -22,21 +22,10 @@
         <div class="ingredient-count">{{ nonSpiceCount }} 种食材 · {{ spiceCount }} 种调料</div>
       </div>
 
-      <div v-if="isSelected" class="servings-control" @click.stop>
-        <button
-          v-for="n in [1, 2, 3]"
-          :key="n"
-          class="servings-btn"
-          :class="{ active: currentServings === n }"
-          @click="setServings(n)"
-        >
-          ×{{ n }}
-        </button>
-      </div>
     </div>
 
     <!-- Action buttons (hover) -->
-    <div v-if="!isSelected" class="card-actions" @click.stop>
+    <div class="card-actions" @click.stop>
       <button class="action-btn edit-btn" @click="$emit('edit', recipe)" title="编辑菜谱">
         <svg viewBox="0 0 20 20" fill="currentColor">
           <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -49,37 +38,24 @@
       </button>
     </div>
 
-    <div v-if="isSelected" class="selected-indicator">
-      <svg viewBox="0 0 20 20" fill="currentColor" class="check-icon">
-        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-      </svg>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Recipe } from '@/types'
-import { useMenuStore } from '@/stores/menuStore'
 import { useRecipesStore } from '@/stores/recipesStore'
 
 const props = defineProps<{ recipe: Recipe }>()
 const emit = defineEmits<{ (e: 'edit', recipe: Recipe): void }>()
 
-const menuStore = useMenuStore()
 const recipesStore = useRecipesStore()
 
-const isSelected = computed(() => menuStore.isSelected(props.recipe.id))
-const currentServings = computed(() => menuStore.getServings(props.recipe.id))
 const nonSpiceCount = computed(() => props.recipe.ingredients.filter((i: { isSpice: boolean }) => !i.isSpice).length)
 const spiceCount = computed(() => props.recipe.ingredients.filter((i: { isSpice: boolean }) => i.isSpice).length)
 
 function handleClick() {
-  menuStore.toggleRecipe(props.recipe.id)
-}
-
-function setServings(n: number) {
-  menuStore.setServings(props.recipe.id, n)
+  emit('edit', props.recipe)
 }
 
 function onImgError(e: Event) {
@@ -100,7 +76,6 @@ function onImgError(e: Event) {
 
 function handleDelete() {
   if (confirm(`确定删除自定义菜谱"${props.recipe.name}"吗？`)) {
-    menuStore.removeRecipe(props.recipe.id)
     recipesStore.deleteCustomRecipe(props.recipe.id)
   }
 }

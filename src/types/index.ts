@@ -22,6 +22,13 @@ export interface SelectedRecipe {
   servings: number
 }
 
+export type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
+
+export interface DailyMenu {
+  dayOfWeek: DayOfWeek
+  recipes: SelectedRecipe[]
+}
+
 export type IngredientGroup = '肉类' | '蔬菜' | '海鲜水产' | '豆制品' | '蛋奶' | '其他'
 
 export interface MergedIngredient {
